@@ -21,16 +21,16 @@ class PronounsPageUser{
         this.username = username;
         this.language = language;
         this.provider = provider;
-        const fetchPronouns = async () => {
-            var response
-            if(provider == PronounsProvider.pronounsAlejo){
+        this.fetchPronouns()
+    }
+    public async fetchPronouns():Promise<void>{
+        var response
+            if(this.provider == PronounsProvider.pronounsAlejo){
                 response = await fetch('https://pronouns.alejo.io/api/users/' + this.username);
-            } else if(provider == PronounsProvider.pronounsPage){
+            } else if(this.provider == PronounsProvider.pronounsPage){
                 response = await fetch('https://pronouns.page/api/profile/get/'+this.username);
             }
             this.data = await response.json();
-        }
-        fetchPronouns()
     }
     public getAvatar():URL{
         if(this.provider != PronounsProvider.pronounsPage){
@@ -69,12 +69,13 @@ class PronounsPageUser{
     }
 
 }
-function newUser(username:String, language:Language = Language.en, provider:PronounsProvider = PronounsProvider.pronounsPage):PronounsPageUser{
+async function newUser(username:String, language:Language = Language.en, provider:PronounsProvider = PronounsProvider.pronounsPage):PronounsPageUser{
     if(users.has(username)){
         users.get(username).setLanguage(language);
         return users.get(username);
     } else {
         users.set(username, new PronounsPageUser(username, language,provider));
+        await users.get(username).fetchPronouns();
         return users.get(username);
     }
 }
