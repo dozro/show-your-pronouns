@@ -97,3 +97,18 @@ async function getFormattedPronounsOfUser(username:String, language:Language = L
     const p:PronounsPageUser = await getUser(username, language);
     return p.getPronounsList().join(', ');
 }
+async function getHTMLFormattedPronounsOfUser(username:String, language:Language = Language.en):Promise<HTMLSpanElement>{
+    var retVal:HTMLSpanElement = document.createElement('span');
+    const p:PronounsPageUser = await getUser(username, language);
+    var pronouns:Array<String> = p.getPronounsList();
+    for (const pronoun of pronouns) {
+        var pa:HTMLAnchorElement = document.createElement('a');
+        pa.classList.add('pronoun');
+        pa.href = "https://" + language + "pronouns.page/" + pronoun;
+        pa.innerText = pronoun;
+        const spacer = document.createTextNode(", ");
+        retVal.appendChild(pa);
+        retVal.appendChild(spacer);
+    }
+    return retVal;
+}
