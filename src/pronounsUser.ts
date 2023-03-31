@@ -1,12 +1,4 @@
-enum Language{
-    en = 'en',
-    de = 'de',
-    es = 'es',
-    fr = 'fr',
-    it = 'it',
-    nl = 'nl',
-    pt = 'pt'
-}
+import { Language } from "./Language";
 enum PronounsProvider{
     pronounsPage = 'pronouns.page',
     pronounsAlejo = 'pronouns.alejo.io'
