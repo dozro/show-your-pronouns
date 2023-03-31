@@ -104,7 +104,8 @@ async function getHTMLFormattedPronounsOfUser(username:String, language:Language
     for (const pronoun of pronouns) {
         var pa:HTMLAnchorElement = document.createElement('a');
         pa.classList.add('pronoun');
-        pa.href = "https://" + language + "pronouns.page/" + pronoun;
+        pa.href = "https://" + language + ".pronouns.page/" + pronoun;
+        pa.target = "_blank";
         pa.innerText = pronoun;
         const spacer = document.createTextNode(", ");
         retVal.appendChild(pa);
