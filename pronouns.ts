@@ -79,21 +79,21 @@ async function newUser(username:String, language:Language = Language.en, provide
         return users.get(username);
     }
 }
-function getUser(username:String, language:Language = Language.en):PronounsPageUser{
+async function getUser(username:String, language:Language = Language.en):Promise<PronounsPageUser>{
     return newUser(username, language, PronounsProvider.pronounsPage);
 }
-function getPronounsPageUser(username:String, language:Language = Language.en):PronounsPageUser{
+async function getPronounsPageUser(username:String, language:Language = Language.en):Promise<PronounsPageUser>{
     return getUser(username,language);
 }
-function getPronounsOfUser(username:String, language:Language = Language.en):Array<String>{
-    const p:PronounsPageUser = getUser(username, language);
+async function getPronounsOfUser(username:String, language:Language = Language.en):Promise<Array<String>>{
+    const p:PronounsPageUser = await getUser(username, language);
     return p.getPronounsList();
 }
-function getAgeOfUser(username:String):Number{
-    const p:PronounsPageUser = getUser(username, Language.en);
+async function getAgeOfUser(username:String):Promise<Number>{
+    const p:PronounsPageUser = await getUser(username, Language.en);
     return p.getAge();
 }
-function getFormattedPronounsOfUser(username:String, language:Language = Language.en):String{
-    const p:PronounsPageUser = getUser(username, language);
+async function getFormattedPronounsOfUser(username:String, language:Language = Language.en):Promise<String>{
+    const p:PronounsPageUser = await getUser(username, language);
     return p.getPronounsList().join(', ');
 }
