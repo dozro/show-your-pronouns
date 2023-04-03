@@ -67,6 +67,39 @@ class PronounsPageUser{
         }
         return retVal;
     }
+    public getOpinionOnPronouns(pronoun:String):Number{
+        var retVal:Array<String> = new Array();
+        if(this.provider == PronounsProvider.pronounsAlejo){
+            retVal.push(this.data[0].pronoun_id);
+            return 1;
+        }
+        var raw:JSON;
+        raw = eval('this.data.profiles.' + this.language + '.pronouns');
+        return raw[pronoun];
+    }
+    public getHTMLFormattedPronouns():HTMLSpanElement{
+        var retVal:HTMLSpanElement = document.createElement('span');
+        for (const pronoun of this.getPronounsList()) {
+            var pa:HTMLAnchorElement = document.createElement('a');
+            pa.classList.add('pronoun');
+            pa.href = "https://" + this.language + "pronouns.page/" + pronoun;
+            var pronounsElement:HTMLSpanElement = document.createElement('span');
+            pronounsElement.innerHTML = pronoun;
+            if(this.getOpinionOnPronouns(pronoun) == 1){
+                pronounsElement.style.fontWeight = "bold";
+                pronounsElement.style.color = "green";
+            } else if(this.getOpinionOnPronouns(pronoun) == 0){
+                pronounsElement.style.color = "orange";
+            } else if(this.getOpinionOnPronouns(pronoun) == -1){
+                pronounsElement.style.color = "red";
+            }
+            pa.append(pronounsElement);
+            const spacer = document.createTextNode(", ");
+            retVal.appendChild(pa);
+            retVal.appendChild(spacer);
+        }
+        return retVal;
+    }
 
 }
 async function newUser(username:String, language:Language = Language.en, provider:PronounsProvider = PronounsProvider.pronounsPage):PronounsPageUser{
@@ -96,19 +129,8 @@ async function getAgeOfUser(username:String):Promise<Number>{
 async function getFormattedPronounsOfUser(username:String, language:Language = Language.en):Promise<String>{
     const p:PronounsPageUser = await getUser(username, language);
     return p.getPronounsList().join(', ');
-}
+} 
 async function getHTMLFormattedPronounsOfUser(username:String, language:Language = Language.en):Promise<HTMLSpanElement>{
-    var retVal:HTMLSpanElement = document.createElement('span');
     const p:PronounsPageUser = await getUser(username, language);
-    var pronouns:Array<String> = p.getPronounsList();
-    for (const pronoun of pronouns) {
-        var pa:HTMLAnchorElement = document.createElement('a');
-        pa.classList.add('pronoun');
-        pa.href = "https://" + language + "pronouns.page/" + pronoun;
-        pa.innerText = pronoun;
-        const spacer = document.createTextNode(", ");
-        retVal.appendChild(pa);
-        retVal.appendChild(spacer);
-    }
-    return retVal;
+    return p.getHTMLFormattedPronouns();
 }
