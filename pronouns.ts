@@ -77,12 +77,18 @@ class PronounsPageUser{
         raw = eval('this.data.profiles.' + this.language + '.pronouns');
         return raw[pronoun];
     }
-    public getHTMLFormattedPronouns():HTMLSpanElement{
+    public getHTMLFormattedPronouns(withLinks:boolean):HTMLSpanElement{
         var retVal:HTMLSpanElement = document.createElement('span');
         for (const pronoun of this.getPronounsList()) {
-            var pa:HTMLAnchorElement = document.createElement('a');
+            var pa:HTMLElement;
+            if(withLinks){
+                pa = document.createElement('a');
+                pa.href = "https://" + this.language + "pronouns.page/" + pronoun;
+                pa.target = "_blank";
+            } else {
+                pa = document.createElement('span');
+            }
             pa.classList.add('pronoun');
-            pa.href = "https://" + this.language + "pronouns.page/" + pronoun;
             var pronounsElement:HTMLSpanElement = document.createElement('span');
             pronounsElement.innerHTML = pronoun;
             if(this.getOpinionOnPronouns(pronoun) == 1){
@@ -132,5 +138,9 @@ async function getFormattedPronounsOfUser(username:String, language:Language = L
 } 
 async function getHTMLFormattedPronounsOfUser(username:String, language:Language = Language.en):Promise<HTMLSpanElement>{
     const p:PronounsPageUser = await getUser(username, language);
-    return p.getHTMLFormattedPronouns();
+    return p.getHTMLFormattedPronouns(true);
+}
+async function getHTMLFormattedPronounsOfUserNoLink(username:String, language:Language = Language.en):Promise<HTMLSpanElement>{
+    const p:PronounsPageUser = await getUser(username, language);
+    return p.getHTMLFormattedPronouns(false);
 }
