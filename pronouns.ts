@@ -77,6 +77,30 @@ class PronounsPageUser{
         raw = eval('this.data.profiles.' + this.language + '.pronouns');
         return raw[pronoun];
     }
+    public getOpinionOnName(name:String):number{
+        var retVal:Array<String> = new Array();
+        if(this.provider == PronounsProvider.pronounsAlejo){
+            retVal.push(this.data[0].name);
+            return 1;
+        }
+        var raw:JSON;
+        raw = eval('this.data.profiles.' + this.language + '.names');
+        return raw[name];
+    }
+    public getNamesList(minimumOpinion:number = 0):Array<String>{
+        var retVal:Array<String> = new Array();
+        if(this.provider == PronounsProvider.pronounsAlejo){
+            retVal.push(this.data[0].name);
+            return retVal;
+        }
+        var raw:JSON;
+        raw = eval('this.data.profiles.' + this.language + '.names');
+        for (const name in raw) {
+            if(raw[name] >= minimumOpinion)
+                retVal.push(name);
+        }
+        return retVal;
+    }
     public getHTMLFormattedPronouns(withLinks:boolean):HTMLSpanElement{
         var retVal:HTMLSpanElement = document.createElement('span');
         for (const pronoun of this.getPronounsList()) {
@@ -143,4 +167,32 @@ async function getHTMLFormattedPronounsOfUser(username:String, language:Language
 async function getHTMLFormattedPronounsOfUserNoLink(username:String, language:Language = Language.en):Promise<HTMLSpanElement>{
     const p:PronounsPageUser = await getUser(username, language);
     return p.getHTMLFormattedPronouns(false);
+}
+async function getPreferedNamesOfUser(username:String, language:Language = Language.en):Promise<Array<String>>{
+    const p:PronounsPageUser = await getUser(username, language);
+    return p.getNamesList(1);
+}
+async function getAllNamesOfUser(username:String, language:Language = Language.en, minimumOpinion:number = -1):Promise<Array<String>>{
+    const p:PronounsPageUser = await getUser(username, language);
+    return p.getNamesList(minimumOpinion);
+}
+async function getHTMLFormattedNamesOfUser(username:String, language:Language = Language.en, minimumOpinion:number = 0):Promise<HTMLElement>{
+    const p:PronounsPageUser = await getUser(username, language);
+    var retVal:HTMLElement = document.createElement('span');
+    for (const name of p.getNamesList(minimumOpinion)) {
+        var nameElement:HTMLSpanElement = document.createElement('span');
+        nameElement.innerHTML = name;
+        if(p.getOpinionOnName(name) == 1){
+            nameElement.style.fontWeight = "bold";
+            nameElement.style.color = "green";
+        } else if(p.getOpinionOnName(name) == 0){
+            nameElement.style.color = "orange";
+        } else if(p.getOpinionOnName(name) == -1){
+            nameElement.style.color = "red";
+        }
+        retVal.append(nameElement);
+        const spacer = document.createTextNode(", ");
+        retVal.appendChild(spacer);
+    }
+    return retVal;
 }
