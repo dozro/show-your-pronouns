@@ -83,7 +83,7 @@ class PronounsPageUser{
             var pa:HTMLElement;
             if(withLinks){
                 pa = document.createElement('a');
-                pa.href = "https://" + this.language + "pronouns.page/" + pronoun;
+                pa.href = "https://" + this.language + ".pronouns.page/" + pronoun;
                 pa.target = "_blank";
             } else {
                 pa = document.createElement('span');
