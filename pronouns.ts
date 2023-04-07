@@ -17,6 +17,11 @@ class PronounsPageUser{
     data: JSON;
     language: Language;
     provider: PronounsProvider;
+    private async getData():Promise<JSON>{
+        if(this.data == null)
+            await this.fetchPronouns();
+        return this.data;
+    }
     constructor(username:String, language:Language, provider:PronounsProvider = PronounsProvider.pronounsPage){
         this.username = username;
         this.language = language;
@@ -31,34 +36,39 @@ class PronounsPageUser{
                 response = await fetch('https://pronouns.page/api/profile/get/'+this.username);
             }
             this.data = await response.json();
+            if (response.status == 404){
+                this.data = null;
+                throw new Error('User not found');
+            }
     }
-    public getAvatar():URL{
+    public async getAvatar():Promise<URL>{
         if(this.provider != PronounsProvider.pronounsPage){
             return new URL('https://pronouns.page/static/img/default.png');
         }
         var retVal:URL;
-        retVal = new URL(this.data.avatar);
+        retVal = new URL(await (this.getData()).avatar);
         return retVal;
     }
     public setLanguage(language:Language):void{
         this.language = language;
     }
-    public getAge():Number{
+    public async getAge():Promise<Number>{
         if(this.provider != PronounsProvider.pronounsPage){
             return -1;
         }
         var retVal:Number;
-        retVal = eval('this.data.profiles.' + this.language + '.age');
+        const raw:JSON = await this.getData();
+        retVal = eval('raw.profiles.' + this.language + '.age');
         return retVal;
     }
-    public getPronounsList():Array<String>{
+    public async getPronounsList():Promise<String[]>{
         var retVal:Array<String> = new Array();
         if(this.provider == PronounsProvider.pronounsAlejo){
-            retVal.push(this.data[0].pronoun_id);
+            retVal.push(await (this.getData()[0]).pronoun_id);
             return retVal;
         }
-        var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.pronouns');
+        var raw:JSON = await (this.getData());
+        raw = eval('raw.profiles.' + this.language + '.pronouns');
         for (const pronoun in raw) {
             console.debug(`${pronoun}: ${raw[pronoun]}`);
             if(raw[pronoun] >= 0){
@@ -101,9 +111,9 @@ class PronounsPageUser{
         }
         return retVal;
     }
-    public getHTMLFormattedPronouns(withLinks:boolean):HTMLSpanElement{
+    public async getHTMLFormattedPronouns(withLinks:boolean):Promise<HTMLSpanElement>{
         var retVal:HTMLSpanElement = document.createElement('span');
-        for (const pronoun of this.getPronounsList()) {
+        for (const pronoun of (await this.getPronounsList())) {
             var pa:HTMLElement;
             if(withLinks){
                 pa = document.createElement('a');
@@ -154,19 +164,19 @@ async function getPronounsOfUser(username:String, language:Language = Language.e
 }
 async function getAgeOfUser(username:String):Promise<Number>{
     const p:PronounsPageUser = await getUser(username, Language.en);
-    return p.getAge();
+    return await p.getAge();
 }
 async function getFormattedPronounsOfUser(username:String, language:Language = Language.en):Promise<String>{
     const p:PronounsPageUser = await getUser(username, language);
-    return p.getPronounsList().join(', ');
+    return (await p.getPronounsList()).join(', ');
 } 
 async function getHTMLFormattedPronounsOfUser(username:String, language:Language = Language.en):Promise<HTMLSpanElement>{
     const p:PronounsPageUser = await getUser(username, language);
-    return p.getHTMLFormattedPronouns(true);
+    return (await p.getHTMLFormattedPronouns(true));
 }
 async function getHTMLFormattedPronounsOfUserNoLink(username:String, language:Language = Language.en):Promise<HTMLSpanElement>{
     const p:PronounsPageUser = await getUser(username, language);
-    return p.getHTMLFormattedPronouns(false);
+    return (await p.getHTMLFormattedPronouns(false));
 }
 async function getPreferedNamesOfUser(username:String, language:Language = Language.en):Promise<Array<String>>{
     const p:PronounsPageUser = await getUser(username, language);
