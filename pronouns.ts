@@ -179,7 +179,9 @@ async function getAllNamesOfUser(username:String, language:Language = Language.e
 async function getHTMLFormattedNamesOfUser(username:String, language:Language = Language.en, minimumOpinion:number = 0):Promise<HTMLElement>{
     const p:PronounsPageUser = await getUser(username, language);
     var retVal:HTMLElement = document.createElement('span');
+    var counter = 0;
     for (const name of p.getNamesList(minimumOpinion)) {
+        counter++;
         var nameElement:HTMLSpanElement = document.createElement('span');
         nameElement.innerHTML = name;
         if(p.getOpinionOnName(name) == 1){
@@ -191,8 +193,10 @@ async function getHTMLFormattedNamesOfUser(username:String, language:Language = 
             nameElement.style.color = "red";
         }
         retVal.append(nameElement);
-        const spacer = document.createTextNode(", ");
-        retVal.appendChild(spacer);
+        if(counter < p.getNamesList(minimumOpinion).length){
+            const spacer = document.createTextNode(", ");
+            retVal.appendChild(spacer);
+        }
     }
     return retVal;
 }
