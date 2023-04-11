@@ -71,3 +71,5 @@ export async function getHTMLFormattedNamesOfUser(username:string, language:Lang
     }
     return retVal;
 }
+export { Language };
+export { PronounsProvider };
