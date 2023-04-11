@@ -6,4 +6,4 @@ export enum Language{
     it = 'it',
     nl = 'nl',
     pt = 'pt'
-};
+}
