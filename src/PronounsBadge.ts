@@ -14,11 +14,12 @@ export class PronounsBadge{
         this.logo = logo;
         this.logoColor = logoColor;
     }
-    public getPronounsBadge(pronouns:string[], color:string = "orange", height:number = 60):HTMLImageElement{
+    public getPronounsBadge(pronouns:string[], color:string = "orange", height:number = 20):HTMLImageElement{
         const pronounsBadge:HTMLImageElement = document.createElement('img');
         pronounsBadge.src = this.shieldsURL.href + pronouns.join('%2F') + '-' + color + '.svg' + '?style=' + this.stylingForPronounsBadge + '&logo=' + this.logo + '&logoColor=' + this.logoColor;
         pronounsBadge.alt = 'pronouns: ' + pronouns.join(', ');
         pronounsBadge.height = height;
+        pronounsBadge.className = 'pronouns-badge';
         return pronounsBadge;
     }
     public setShieldsUrl(shieldsURL:URL):void{
