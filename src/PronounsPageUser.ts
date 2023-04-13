@@ -142,3 +142,13 @@ export class PronounsPageUser{
     }
 
 }
+export async function newUser(username:string, language:Language = Language.en, provider:PronounsProvider = PronounsProvider.pronounsPage):Promise<PronounsPageUser>{
+    if(users.has(username)){
+        users.get(username).setLanguage(language);
+        return users.get(username);
+    } else {
+        users.set(username, new PronounsPageUser(username, language,provider));
+        await users.get(username).fetchPronouns();
+        return users.get(username);
+    }
+}
