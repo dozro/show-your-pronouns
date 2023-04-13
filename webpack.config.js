@@ -8,7 +8,7 @@ module.exports = {
     },
 //    PronounsPageUser: './src/PronounsPageUser.ts'
   },
-  mode: 'development',
+  mode: 'production',
   devtool: 'inline-source-map',
   output: {
     filename: 'pronounsPage.js',
