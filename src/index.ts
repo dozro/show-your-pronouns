@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { PronounsPageUser } from './PronounsPageUser';
 import { Language } from './Language';
 import { PronounsProvider } from './PronounsProvider';
+import { getPronounsBadge } from './PronounsBadge';
 var users = new Map();
 export async function newUser(username:string, language:Language = Language.en, provider:PronounsProvider = PronounsProvider.pronounsPage):Promise<PronounsPageUser>{
     if(users.has(username)){
@@ -70,6 +71,10 @@ export async function getHTMLFormattedNamesOfUser(username:string, language:Lang
         }
     }
     return retVal;
+}
+export async function getPronounsBadgeOfUser(username:string, language:Language = Language.en):Promise<HTMLImageElement>{
+    const p:PronounsPageUser = users.get(username);
+    return getPronounsBadge(await p.getPronounsList());
 }
 export { Language };
 export { PronounsProvider };
