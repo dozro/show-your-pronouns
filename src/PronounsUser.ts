@@ -52,7 +52,7 @@ export class PronounsUser{
         retVal = eval('raw.profiles.' + this.language + '.age');
         return retVal;
     }
-    public async getPronounsList():Promise<string[]>{
+    public async getPronounsList(minimumOpinion:number = 0):Promise<string[]>{
         var retVal:Array<string> = new Array();
         if(this.provider == PronounsProvider.pronounsAlejo){
             // @ts-ignore
@@ -65,7 +65,7 @@ export class PronounsUser{
             // @ts-ignore
             console.debug(`${pronoun}: ${raw[pronoun]}`);
             // @ts-ignore
-            if(raw[pronoun] >= 0){
+            if(raw[pronoun] >= minimumOpinion){
                 retVal.push(pronoun);
             }
         }
