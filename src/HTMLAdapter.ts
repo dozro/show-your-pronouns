@@ -65,5 +65,5 @@ export async function getHTMLFormattedNamesOfUser(username:string, language:Lang
 export async function getPronounsBadgeOfUser(username:string, language:Language = Language.en):Promise<HTMLImageElement>{
     const p:PronounsUser = users.get(username);
     p.setLanguage(language);
-    return getPronounsBadge(await p.getPronounsList());
+    return getPronounsBadge(await p.getPronounsList(1));
 }
