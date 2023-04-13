@@ -1,8 +1,8 @@
-import { PronounsUser, newUser } from './PronounsUser';
+import { PronounsUser } from './PronounsUser';
 import { Language } from './Language';
 import { PronounsProvider } from './PronounsProvider';
-import { getPronounsBadge } from './PronounsBadge';
-var users = new Map();
+import { getPronounsBadge } from './PronounsBadge-HTMLAdapter';
+import { newUser, users } from './UserMng';
 
 export async function getUser(username:string, language:Language = Language.en):Promise<PronounsUser>{
     return newUser(username, language, PronounsProvider.pronounsPage);
@@ -64,5 +64,6 @@ export async function getHTMLFormattedNamesOfUser(username:string, language:Lang
 }
 export async function getPronounsBadgeOfUser(username:string, language:Language = Language.en):Promise<HTMLImageElement>{
     const p:PronounsUser = users.get(username);
+    p.setLanguage(language);
     return getPronounsBadge(await p.getPronounsList());
 }
