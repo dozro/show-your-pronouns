@@ -29,6 +29,7 @@ class PronounsPageUser{
             return new URL('https://pronouns.page/static/img/default.png');
         }
         var retVal:URL;
+        // @ts-ignore: TS2339
         retVal = new URL(this.data.avatar);
         return retVal;
     }
@@ -46,10 +47,11 @@ class PronounsPageUser{
     public getPronounsList():Array<String>{
         var retVal:Array<String> = new Array();
         if(this.provider == PronounsProvider.pronounsAlejo){
+            // @ts-ignore: TS7053
             retVal.push(this.data[0].pronoun_id);
             return retVal;
         }
-        var raw:JSON;
+        var raw:any;
         raw = eval('this.data.profiles.' + this.language + '.pronouns');
         for (const pronoun in raw) {
             console.debug(`${pronoun}: ${raw[pronoun]}`);
@@ -61,7 +63,7 @@ class PronounsPageUser{
     }
 
 }
-async function newPronounsUser(username:String, language:Language = Language.en, provider:PronounsProvider = PronounsProvider.pronounsPage):PronounsPageUser{
+async function newPronounsUser(username:String, language:Language = Language.en, provider:PronounsProvider = PronounsProvider.pronounsPage):Promise<PronounsPageUser>{
     if(pronounsUsers.has(username)){
         pronounsUsers.get(username).setLanguage(language);
         return pronounsUsers.get(username);
@@ -98,7 +100,7 @@ export async function getHTMLFormattedPronounsOfUser(username:String, language:L
         pa.classList.add('pronoun');
         pa.href = "https://" + language + ".pronouns.page/" + pronoun;
         pa.target = "_blank";
-        pa.innerText = pronoun;
+        pa.innerText = String(pronoun);
         const spacer = document.createTextNode(", ");
         retVal.appendChild(pa);
         retVal.appendChild(spacer);
