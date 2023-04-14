@@ -5,11 +5,31 @@ export class PronounsUser{
     data: JSON;
     language: Language;
     provider: PronounsProvider;
+    /**
+     * This is an asynchronous function that returns a JSON object after fetching pronouns data if it's
+     * not already available.
+     * 
+     * @return A Promise that resolves to a JSON object.
+     */
     private async getData():Promise<JSON>{
         if(this.data == null)
             await this.fetchPronouns();
         return this.data;
     }
+    /**
+     * This is a constructor function that initializes the username, language, and provider properties
+     * of an object and fetches pronouns based on the provider.
+     * 
+     * @param username A string representing the username of the user for whom the pronouns are being
+     * fetched.
+     * @param language The `language` parameter is a `Language` object that represents the programming
+     * language that the user is working with. It is likely an enum or a class that contains constants
+     * for different programming languages.
+     * @param provider The `provider` parameter is an optional parameter of type `PronounsProvider`
+     * that specifies where to fetch the pronouns from. If no value is provided for this parameter, the
+     * default value is `PronounsProvider.pronounsPage`, which means that the pronouns will be fetched
+     * from
+     */
     constructor(username:String, language:Language, provider:PronounsProvider = PronounsProvider.pronounsPage){
         if(provider == undefined)
             provider = PronounsProvider.pronounsPage;
@@ -18,6 +38,10 @@ export class PronounsUser{
         this.provider = provider;
         this.fetchPronouns()
     }
+    /**
+     * This function fetches pronoun data from either the Pronouns Alejo or Pronouns Page API based on
+     * the provider specified and throws an error if the user is not found.
+     */
     public async fetchPronouns():Promise<void>{
         var response
             if(this.provider == PronounsProvider.pronounsAlejo){
@@ -31,6 +55,12 @@ export class PronounsUser{
                 throw new Error('User not found');
             }
     }
+    /**
+     * This function returns the avatar URL of a user, with a default URL if the user is not using the
+     * Pronouns Page provider.
+     * 
+     * @return A Promise that resolves to a URL.
+     */
     public async getAvatar():Promise<URL>{
         if(this.provider != PronounsProvider.pronounsPage){
             return new URL('https://pronouns.page/static/img/default.png');
@@ -40,6 +70,14 @@ export class PronounsUser{
         retVal = new URL(await (this.getData()).avatar);
         return retVal;
     }
+    /**
+     * This function sets the language of the code.
+     * 
+     * @param language The parameter "language" is of type "Language", which is likely a custom data
+     * type or an enum that represents a programming language. The function "setLanguage" takes in a
+     * value of this type and sets it as the language property of the object that the function is
+     * called on.
+     */
     public setLanguage(language:Language):void{
         this.language = language;
     }
@@ -52,6 +90,20 @@ export class PronounsUser{
         retVal = eval('raw.profiles.' + this.language + '.age');
         return retVal;
     }
+    /**
+     * This function retrieves a list of pronouns based on a minimum opinion score from a provider's
+     * data source.
+     * 
+     * @param minimumOpinion minimumOpinion is a number parameter that represents the minimum opinion
+     * score required for a pronoun to be included in the returned list. The opinion score is obtained
+     * from the data source and indicates how widely accepted or recognized a particular pronoun is.
+     * 
+     * @return This function returns a Promise that resolves to an array of strings representing
+     * pronouns. The pronouns are filtered based on a minimum opinion score, which is an optional
+     * parameter with a default value of 0. The function retrieves the pronouns from a data source
+     * based on the provider and language specified. If the provider is "pronounsAlejo", it retrieves
+     * the pronoun ID from the first item in
+     */
     public async getPronounsList(minimumOpinion:number = 0):Promise<string[]>{
         var retVal:Array<string> = new Array();
         if(this.provider == PronounsProvider.pronounsAlejo){
@@ -71,6 +123,13 @@ export class PronounsUser{
         }
         return retVal;
     }
+    /**
+     * This function returns an array of pride flags based on the language and provider selected, with
+     * a warning if the provider is not compatible.
+     * 
+     * @return An array of strings representing pride flags. If the provider is "PronounsAlejo", an
+     * empty array is returned and a warning message is logged.
+     */
     public getPrideFlags():Array<string>{
         var retVal:Array<string> = new Array();
         if(this.provider == PronounsProvider.pronounsAlejo){
@@ -85,6 +144,15 @@ export class PronounsUser{
         }
         return retVal;
     }
+    /**
+     * This function returns a numerical value based on the input pronoun, either from a predefined
+     * provider or from a JSON object.
+     * 
+     * @param pronoun The pronoun parameter is a string that represents the pronoun for which the
+     * function will return an opinion.
+     * 
+     * @return a number, which is either 1 or the value of the pronoun in the JSON data.
+     */
     public getOpinionOnPronouns(pronoun:String):Number{
         var retVal:Array<String> = new Array();
         if(this.provider == PronounsProvider.pronounsAlejo){
@@ -97,6 +165,18 @@ export class PronounsUser{
         // @ts-ignore
         return raw[pronoun];
     }
+    /**
+     * This function takes in a name as a string and returns a number indicating the opinion on that
+     * name based on the fetched data.
+     * 
+     * @param name The parameter "name" is a string representing a name for which the function will
+     * return an opinion (a number).
+     * 
+     * @return a number that represents the opinion on a given name. The opinion is based on the data
+     * stored in the object's `data` property, which is accessed based on the language and provider. If
+     * the provider is `pronounsAlejo`, the function returns 1 and adds the first name in the `data`
+     * array to the `retVal` array.
+     */
     public getOpinionOnName(name:string):number{
         var retVal:Array<String> = new Array();
         if(this.provider == PronounsProvider.pronounsAlejo){
@@ -109,6 +189,18 @@ export class PronounsUser{
         // @ts-ignore
         return raw[name];
     }
+    /**
+     * This function returns an array of names based on a minimum opinion value, with a special case
+     * for a specific provider.
+     * 
+     * @param minimumOpinion minimumOpinion is a number parameter that has a default value of 0. It is
+     * used to filter out names from a list based on their opinion score. Only names with an opinion
+     * score greater than or equal to the minimumOpinion value will be included in the returned list.
+     * 
+     * @return An array of strings containing names with a minimum opinion value, based on the data
+     * provided by the PronounsProvider. If the provider is "pronounsAlejo", only one name (the first
+     * one in the data array) will be returned.
+     */
     public getNamesList(minimumOpinion:number = 0):Array<string>{
         var retVal:Array<string> = new Array();
         if(this.provider == PronounsProvider.pronounsAlejo){
@@ -125,6 +217,16 @@ export class PronounsUser{
         }
         return retVal;
     }
+    /**
+     * This function creates a HTML span element containing a list of pronouns with optional links and
+     * formatting based on the user's opinion.
+     * 
+     * @param withLinks A boolean value that determines whether the pronouns should be formatted as
+     * links or not. If true, each pronoun will be a clickable link to its corresponding page on the
+     * pronouns.page website. If false, each pronoun will be displayed as plain text.
+     * 
+     * @return a Promise that resolves to an HTMLSpanElement.
+     */
     public async getHTMLFormattedPronouns(withLinks:boolean):Promise<HTMLSpanElement>{
         var retVal:HTMLSpanElement = document.createElement('span');
         for (const pronoun of (await this.getPronounsList())) {
