@@ -189,48 +189,7 @@ export abstract class PronounsUser{
         // @ts-ignore
         return raw[name];
     }
-<<<<<<< HEAD
     public abstract getNamesList(minimumOpinion:number):Array<string>;
-=======
-    /**
-     * This function returns an array of names based on a minimum opinion value, with a special case
-     * for a specific provider.
-     * 
-     * @param minimumOpinion minimumOpinion is a number parameter that has a default value of 0. It is
-     * used to filter out names from a list based on their opinion score. Only names with an opinion
-     * score greater than or equal to the minimumOpinion value will be included in the returned list.
-     * 
-     * @return An array of strings containing names with a minimum opinion value, based on the data
-     * provided by the PronounsProvider. If the provider is "pronounsAlejo", only one name (the first
-     * one in the data array) will be returned.
-     */
-    public getNamesList(minimumOpinion:number = 0):Array<string>{
-        var retVal:Array<string> = new Array();
-        if(this.provider == PronounsProvider.pronounsAlejo){
-            // @ts-ignore
-            retVal.push(this.data[0].name);
-            return retVal;
-        }
-        var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.names');
-        for (const name in raw) {
-            // @ts-ignore
-            if(raw[name] >= minimumOpinion)
-                retVal.push(name);
-        }
-        return retVal;
-    }
-    /**
-     * This function creates a HTML span element containing a list of pronouns with optional links and
-     * formatting based on the user's opinion.
-     * 
-     * @param withLinks A boolean value that determines whether the pronouns should be formatted as
-     * links or not. If true, each pronoun will be a clickable link to its corresponding page on the
-     * pronouns.page website. If false, each pronoun will be displayed as plain text.
-     * 
-     * @return a Promise that resolves to an HTMLSpanElement.
-     */
->>>>>>> documentation
     public async getHTMLFormattedPronouns(withLinks:boolean):Promise<HTMLSpanElement>{
         var retVal:HTMLSpanElement = document.createElement('span');
         for (const pronoun of (await this.getPronounsList())) {
