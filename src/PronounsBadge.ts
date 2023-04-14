@@ -1,4 +1,8 @@
 export class PronounsBadge{
+    /** `private shieldsURL:URL;` is declaring a private instance variable `shieldsURL` of type `URL` in
+    the `PronounsBadge` class. This variable is used to store the base URL for the shields.io
+    service, which is used to generate the pronouns badge image. The `private` keyword makes this
+    variable accessible only within the `PronounsBadge` class and not from outside the class. */
     private shieldsURL:URL;
     private stylingForPronounsBadge:string;
     private logo:string;
@@ -14,6 +18,18 @@ export class PronounsBadge{
         this.logo = logo;
         this.logoColor = logoColor;
     }
+    /**
+     * This function creates an HTML image element for displaying a badge with pronouns, color, and height
+     * parameters.
+     * 
+     * @param pronouns An array of strings representing the pronouns to be displayed on the badge.
+     * @param color The color parameter is a string that specifies the color of the badge. It has a default
+     * value of "orange" if no value is provided.
+     * @param height The height of the image element that will be returned by the function. It is set to a
+     * default value of 20 if no value is provided when the function is called.
+     * 
+     * @return an HTMLImageElement, which is an object representing an image element in the HTML document.
+     */
     public getPronounsBadge(pronouns:string[], color:string = "orange", height:number = 20):HTMLImageElement{
         const pronounsBadge:HTMLImageElement = document.createElement('img');
         pronounsBadge.src = this.shieldsURL.href + pronouns.join('%2F') + '-' + color + '.svg' + '?style=' + this.stylingForPronounsBadge + '&logo=' + this.logo + '&logoColor=' + this.logoColor;
@@ -22,6 +38,13 @@ export class PronounsBadge{
         pronounsBadge.className = 'pronouns-badge';
         return pronounsBadge;
     }
+    /**
+     * This function sets the shieldsURL property of an object to a given URL.
+     * 
+     * @param shieldsURL shieldsURL is a parameter of type URL that is passed to the function
+     * setShieldsUrl(). The function sets the value of the class variable shieldsURL to the value of
+     * the parameter.
+     */
     public setShieldsUrl(shieldsURL:URL):void{
         this.shieldsURL = shieldsURL;
     }
