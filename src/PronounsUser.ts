@@ -71,6 +71,20 @@ export class PronounsUser{
         }
         return retVal;
     }
+    public getPrideFlags():Array<string>{
+        var retVal:Array<string> = new Array();
+        if(this.provider == PronounsProvider.pronounsAlejo){
+            console.warn('PronounsAlejo does not support pride flags');
+            return retVal;
+        }
+        var raw:JSON;
+        raw = eval('this.data.profiles.' + this.language + '.flags');
+        for (const flag in raw) {
+            // @ts-ignore
+            retVal.push(raw[flag]);
+        }
+        return retVal;
+    }
     public getOpinionOnPronouns(pronoun:String):Number{
         var retVal:Array<String> = new Array();
         if(this.provider == PronounsProvider.pronounsAlejo){
