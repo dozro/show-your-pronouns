@@ -3,6 +3,7 @@ import { Language } from './Language';
 import { PronounsProvider } from './PronounsProvider';
 import { getPronounsBadge } from './PronounsBadge-HTMLAdapter';
 import { newUser, users } from './UserMng';
+import { PronounsPagePrideFlags } from './PronounsPagePrideFlags';
 
 export async function getUser(username:string, language:Language = Language.en):Promise<PronounsUser>{
     return newUser(username, language, PronounsProvider.pronounsPage);
@@ -63,7 +64,17 @@ export async function getHTMLFormattedNamesOfUser(username:string, language:Lang
     return retVal;
 }
 export async function getPronounsBadgeOfUser(username:string, language:Language = Language.en):Promise<HTMLImageElement>{
-    const p:PronounsUser = users.get(username);
+    const p:PronounsUser = await getUser(username, language);
     p.setLanguage(language);
     return getPronounsBadge(await p.getPronounsList(1));
+}
+export async function getPrideFlagsOfUser(username:string, language:Language = Language.en, heightOfFlags:number = 30):Promise<HTMLSpanElement>{
+    const p:PronounsUser = await getUser(username, language);
+    p.setLanguage(language);
+    var retVal:HTMLSpanElement = document.createElement('span');
+    for (const flag of p.getPrideFlags()) {
+        retVal.appendChild(new PronounsPagePrideFlags(flag).getAsImg());
+    }
+    retVal.classList.add('prideFlags');
+    return retVal;
 }
