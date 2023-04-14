@@ -1,6 +1,6 @@
 import {Language} from "./Language";
 import {PronounsProvider} from "./PronounsProvider";
-export class PronounsUser{
+export abstract class PronounsUser{
     username: String;
     data: JSON;
     language: Language;
@@ -109,22 +109,7 @@ export class PronounsUser{
         // @ts-ignore
         return raw[name];
     }
-    public getNamesList(minimumOpinion:number = 0):Array<string>{
-        var retVal:Array<string> = new Array();
-        if(this.provider == PronounsProvider.pronounsAlejo){
-            // @ts-ignore
-            retVal.push(this.data[0].name);
-            return retVal;
-        }
-        var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.names');
-        for (const name in raw) {
-            // @ts-ignore
-            if(raw[name] >= minimumOpinion)
-                retVal.push(name);
-        }
-        return retVal;
-    }
+    public abstract getNamesList(minimumOpinion:number):Array<string>;
     public async getHTMLFormattedPronouns(withLinks:boolean):Promise<HTMLSpanElement>{
         var retVal:HTMLSpanElement = document.createElement('span');
         for (const pronoun of (await this.getPronounsList())) {
