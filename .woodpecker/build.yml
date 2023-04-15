@@ -4,3 +4,15 @@ pipeline:
     commands:
       - npm install --save-dev typescript ts-loader
       - npx webpack --config webpack.config.js
+  upload:
+    image: woodpeckerci/plugin-s3
+    settings:
+      bucket: cdn
+      access_key:
+        from_secret: s3_access_key_id
+      secret_key:
+        from_secret: s3_secret_access_key
+      source: dist/**/*
+      target: /scripts/pronouns.page/edge/
+      path_style: true
+      endpoint: https://play.minio.io:9000
