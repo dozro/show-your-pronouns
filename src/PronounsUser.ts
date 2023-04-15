@@ -1,17 +1,17 @@
 import {Language} from "./Language";
 import {PronounsProvider} from "./PronounsProvider";
 export abstract class PronounsUser{
-    username: String;
-    data: JSON;
-    language: Language;
-    provider: PronounsProvider;
+    protected username: String;
+    protected data: JSON;
+    protected language: Language;
+    protected provider: PronounsProvider;
     /**
      * This is an asynchronous function that returns a JSON object after fetching pronouns data if it's
      * not already available.
      * 
      * @return A Promise that resolves to a JSON object.
      */
-    private async getData():Promise<JSON>{
+    protected async getData():Promise<JSON>{
         if(this.data == null)
             await this.fetchPronouns();
         return this.data;
@@ -42,34 +42,14 @@ export abstract class PronounsUser{
      * This function fetches pronoun data from either the Pronouns Alejo or Pronouns Page API based on
      * the provider specified and throws an error if the user is not found.
      */
-    public async fetchPronouns():Promise<void>{
-        var response
-            if(this.provider == PronounsProvider.pronounsAlejo){
-                response = await fetch('https://pronouns.alejo.io/api/users/' + this.username);
-            } else if(this.provider == PronounsProvider.pronounsPage){
-                response = await fetch('https://pronouns.page/api/profile/get/'+this.username);
-            }
-            this.data = await response.json();
-            if (response.status == 404){
-                this.data = null;
-                throw new Error('User not found');
-            }
-    }
+    public abstract fetchPronouns():Promise<void>;
     /**
      * This function returns the avatar URL of a user, with a default URL if the user is not using the
      * Pronouns Page provider.
      * 
      * @return A Promise that resolves to a URL.
      */
-    public async getAvatar():Promise<URL>{
-        if(this.provider != PronounsProvider.pronounsPage){
-            return new URL('https://pronouns.page/static/img/default.png');
-        }
-        var retVal:URL;
-        // @ts-ignore
-        retVal = new URL(await (this.getData()).avatar);
-        return retVal;
-    }
+    public abstract getAvatar():Promise<URL>;
     /**
      * This function sets the language of the code.
      * 
@@ -81,15 +61,7 @@ export abstract class PronounsUser{
     public setLanguage(language:Language):void{
         this.language = language;
     }
-    public async getAge():Promise<Number>{
-        if(this.provider != PronounsProvider.pronounsPage){
-            return -1;
-        }
-        var retVal:Number;
-        const raw:JSON = await this.getData();
-        retVal = eval('raw.profiles.' + this.language + '.age');
-        return retVal;
-    }
+    public abstract getAge():Promise<Number>;
     /**
      * This function retrieves a list of pronouns based on a minimum opinion score from a provider's
      * data source.
@@ -104,25 +76,7 @@ export abstract class PronounsUser{
      * based on the provider and language specified. If the provider is "pronounsAlejo", it retrieves
      * the pronoun ID from the first item in
      */
-    public async getPronounsList(minimumOpinion:number = 0):Promise<string[]>{
-        var retVal:Array<string> = new Array();
-        if(this.provider == PronounsProvider.pronounsAlejo){
-            // @ts-ignore
-            retVal.push(await (this.getData()[0]).pronoun_id);
-            return retVal;
-        }
-        var raw:JSON = await (this.getData());
-        raw = eval('raw.profiles.' + this.language + '.pronouns');
-        for (const pronoun in raw) {
-            // @ts-ignore
-            console.debug(`${pronoun}: ${raw[pronoun]}`);
-            // @ts-ignore
-            if(raw[pronoun] >= minimumOpinion){
-                retVal.push(pronoun);
-            }
-        }
-        return retVal;
-    }
+    public abstract getPronounsList(minimumOpinion:number):Promise<string[]>;
     /**
      * This function returns an array of pride flags based on the language and provider selected, with
      * a warning if the provider is not compatible.
@@ -130,20 +84,7 @@ export abstract class PronounsUser{
      * @return An array of strings representing pride flags. If the provider is "PronounsAlejo", an
      * empty array is returned and a warning message is logged.
      */
-    public getPrideFlags():Array<string>{
-        var retVal:Array<string> = new Array();
-        if(this.provider == PronounsProvider.pronounsAlejo){
-            console.warn('PronounsAlejo does not support pride flags');
-            return retVal;
-        }
-        var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.flags');
-        for (const flag in raw) {
-            // @ts-ignore
-            retVal.push(raw[flag]);
-        }
-        return retVal;
-    }
+    public abstract getPrideFlags():Array<string>;
     /**
      * This function returns a numerical value based on the input pronoun, either from a predefined
      * provider or from a JSON object.
@@ -153,18 +94,7 @@ export abstract class PronounsUser{
      * 
      * @return a number, which is either 1 or the value of the pronoun in the JSON data.
      */
-    public getOpinionOnPronouns(pronoun:String):Number{
-        var retVal:Array<String> = new Array();
-        if(this.provider == PronounsProvider.pronounsAlejo){
-            // @ts-ignore
-            retVal.push(this.data[0].pronoun_id);
-            return 1;
-        }
-        var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.pronouns');
-        // @ts-ignore
-        return raw[pronoun];
-    }
+    public abstract getOpinionOnPronouns(pronoun:String):Number;
     /**
      * This function takes in a name as a string and returns a number indicating the opinion on that
      * name based on the fetched data.
@@ -192,7 +122,7 @@ export abstract class PronounsUser{
     public abstract getNamesList(minimumOpinion:number):Array<string>;
     public async getHTMLFormattedPronouns(withLinks:boolean):Promise<HTMLSpanElement>{
         var retVal:HTMLSpanElement = document.createElement('span');
-        for (const pronoun of (await this.getPronounsList())) {
+        for (const pronoun of (await this.getPronounsList(0))) {
             var pa:any;
             if(withLinks){
                 pa = document.createElement('a');
