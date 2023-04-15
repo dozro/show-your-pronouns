@@ -1,0 +1,5 @@
+pipeline:
+  build:
+    image: codeberg.org/julian21/ci-typescript-webpack:edge
+    commands:
+      - npx webpack --config webpack.config.js
