@@ -4,7 +4,7 @@ pipeline:
     commands:
       - npm install --save-dev typescript ts-loader
       - npx webpack --config webpack.config.js
-  upload:
+  upload-edge:
     image: woodpeckerci/plugin-s3
     settings:
       bucket: cdn
@@ -12,8 +12,21 @@ pipeline:
         from_secret: s3_access_key_id
       secret_key:
         from_secret: s3_secret_access_key
-      source: dist/pronounsPage.js
+      source: dist/*
       target: /scripts/pronouns.page/edge/
+      path_style: true
+      endpoint: http://192.2.99.21:9000
+      region: eu-DE
+  upload-ci:
+    image: woodpeckerci/plugin-s3
+    settings:
+      bucket: cdn
+      access_key:
+        from_secret: s3_access_key_id
+      secret_key:
+        from_secret: s3_secret_access_key
+      source: dist/*
+      target: /scripts/pronouns.page/ci/${CI_BUILD_NUMBER}
       path_style: true
       endpoint: http://192.2.99.21:9000
       region: eu-DE
