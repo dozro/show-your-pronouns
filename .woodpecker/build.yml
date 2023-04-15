@@ -4,7 +4,7 @@ pipeline:
     commands:
       - npm install --save-dev typescript ts-loader
       - npx webpack --config webpack.config.js
-  upload-edge:
+  uploadEdge:
     image: woodpeckerci/plugin-s3
     settings:
       bucket: cdn
@@ -17,7 +17,7 @@ pipeline:
       path_style: true
       endpoint: http://192.2.99.21:9000
       region: eu-DE
-  upload-ci:
+  uploadCi:
     image: woodpeckerci/plugin-s3
     settings:
       bucket: cdn
