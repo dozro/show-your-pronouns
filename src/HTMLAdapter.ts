@@ -50,7 +50,7 @@ export async function getPronounsPageUser(username:string, language:Language = L
  */
 export async function getPronounsOfUser(username:string, language:Language = Language.en):Promise<Array<String>>{
     const p:PronounsUser = await getUser(username, language);
-    return p.getPronounsList();
+    return p.getPronounsList(0);
 }
 /**
  * This TypeScript function retrieves the age of a user by their username using an external getUser
@@ -83,7 +83,7 @@ export async function getAgeOfUser(username:string):Promise<Number>{
  */
 export async function getFormattedPronounsOfUser(username:string, language:Language = Language.en):Promise<String>{
     const p:PronounsUser = await getUser(username, language);
-    return (await p.getPronounsList()).join(', ');
+    return (await p.getPronounsList(0)).join(', ');
 } 
 /**
  * This function retrieves a user's pronouns and returns them in HTML format.
