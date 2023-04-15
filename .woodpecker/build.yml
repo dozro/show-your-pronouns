@@ -16,3 +16,4 @@ pipeline:
       target: /scripts/pronouns.page/edge/
       path_style: true
       endpoint: http://192.2.99.21:9000
+      region: eu-DE
