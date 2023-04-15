@@ -15,4 +15,4 @@ pipeline:
       source: dist/**/*
       target: /scripts/pronouns.page/edge/
       path_style: true
-      endpoint: https://delivery.thejulian.uk
+      endpoint: http://192.2.99.21:9000
