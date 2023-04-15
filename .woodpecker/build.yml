@@ -2,4 +2,5 @@ pipeline:
   build:
     image: codeberg.org/julian21/ci-typescript-webpack:edge
     commands:
+      - npm install --save-dev typescript ts-loader
       - npx webpack --config webpack.config.js
