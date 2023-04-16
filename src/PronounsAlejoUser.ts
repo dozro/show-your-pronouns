@@ -22,14 +22,8 @@ export class PronounsAlejoUser extends PronounsUser {
     
     }
     public getPrideFlags():Array<string>{
-        var retVal:Array<string> = new Array();
-        var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.flags');
-        for (const flag in raw) {
-            // @ts-ignore
-            retVal.push(raw[flag]);
-        }
-        return retVal;
+        console.warn('PronounsAlejo does not support pride flags');
+        throw new Error('PronounsAlejo does not support pride flags');
     }
     public async getPronounsList(minimumOpinion:number = 0):Promise<string[]>{
         var retVal:Array<string> = new Array();
