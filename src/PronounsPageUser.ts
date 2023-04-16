@@ -6,7 +6,8 @@ export class PronounsPageUser extends PronounsUser {
     public getNamesList(minimumOpinion:number = 0):Array<string>{
         var retVal:Array<string> = new Array();
         var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.names');
+        const data:JSON = this.getDataNoFetch();
+        raw = eval('data.profiles.' + this.language + '.names');
         for (const name in raw) {
             // @ts-ignore
             if(raw[name] >= minimumOpinion)
@@ -25,14 +26,16 @@ export class PronounsPageUser extends PronounsUser {
      */
     public getOpinionOnPronouns(pronoun:String):Number{
         var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.pronouns');
+        const data:JSON = this.getDataNoFetch();
+        raw = eval('data.profiles.' + this.language + '.pronouns');
         // @ts-ignore
         return raw[pronoun];
     }
     public getPrideFlags():Array<string>{
         var retVal:Array<string> = new Array();
         var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.flags');
+        const data:JSON = this.getDataNoFetch();
+        raw = eval('data.profiles.' + this.language + '.flags');
         for (const flag in raw) {
             // @ts-ignore
             retVal.push(raw[flag]);

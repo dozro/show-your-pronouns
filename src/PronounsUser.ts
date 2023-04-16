@@ -28,6 +28,11 @@ export abstract class PronounsUser{
             await this.fetchPronouns();
         return this.data;
     }
+    protected getDataNoFetch():JSON{
+        if(this.errorWhileFetching)
+            throw new NoDataBecauseUserNotFound("There was previously an error while trying to fetch data. Therefor no data is available.");
+        return this.data;
+    }
     /**
      * This is a constructor function that initializes the username, language, and provider properties
      * of an object and fetches pronouns based on the provider.
