@@ -4,7 +4,7 @@ pipeline:
     commands:
       - npm install --save-dev typescript ts-loader
       - npx webpack --config webpack.config.js
-      - minify dist/pronounsPage.js > dist/pronounsPage.min.js
+#      - minify dist/pronounsPage.js > dist/pronounsPage.min.js
   jest:
     image: codeberg.org/julian21/ci-typescript-jest:edge
     commands:
