@@ -26,6 +26,7 @@ pipeline:
     when:
       - event: push
         branch: main
+    group: publish
   uploadCi:
     image: woodpeckerci/plugin-s3
     settings:
@@ -42,3 +43,4 @@ pipeline:
     when:
       - event: push
         branch: main
+    group: publish
