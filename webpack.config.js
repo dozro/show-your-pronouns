@@ -24,6 +24,10 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.tsx?$/,
+        exclude: /tests/,
+      },
     ],
   },
   resolve: {
