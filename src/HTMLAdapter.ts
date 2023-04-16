@@ -75,15 +75,18 @@ export async function getAgeOfUser(username:string):Promise<Number>{
  * @param language The `language` parameter is an optional parameter of type `Language` that specifies
  * the language in which the pronouns should be returned. If no language is specified, the default
  * language is English (`Language.en`).
+ * @param minimumOpinion The `minimumOpinion` parameter is an optional parameter of type `number` that
+ * specifies the minimum opinion of a pronoun that should be returned. If no minimum opinion is
+ * specified, the default minimum opinion is 0.
  * 
  * @return a Promise that resolves to a string representing the formatted pronouns of a user. The
  * formatted pronouns are obtained by calling the `getPronounsList()` method of a `PronounsUser`
  * object, which is retrieved by calling the `getUser()` function with the provided `username` and
  * `language` parameters. The pronouns are joined together with commas and returned as
  */
-export async function getFormattedPronounsOfUser(username:string, language:Language = Language.en):Promise<String>{
+export async function getFormattedPronounsOfUser(username:string, language:Language = Language.en, minimumOpinion:number = 0):Promise<String>{
     const p:PronounsUser = await getUser(username, language);
-    return (await p.getPronounsList(0)).join(', ');
+    return (await p.getPronounsList(minimumOpinion)).join(', ');
 } 
 /**
  * This function retrieves a user's pronouns and returns them in HTML format.
@@ -128,9 +131,9 @@ export async function getHTMLFormattedPronounsOfUserNoLink(username:string, lang
  * and `language`. Then, it calls the `getNamesList` method of the `PronounsUser` object with a
  * parameter of 1 to get an array of
  */
-export async function getPreferedNamesOfUser(username:string, language:Language = Language.en):Promise<Array<String>>{
+export async function getPreferedNamesOfUser(username:string, language:Language = Language.en, minimumOpinion:number = 1):Promise<Array<String>>{
     const p:PronounsUser = await getUser(username, language);
-    return p.getNamesList(1);
+    return p.getNamesList(minimumOpinion);
 }
 /**
  * This TypeScript function retrieves a list of names associated with a user, based on a minimum
