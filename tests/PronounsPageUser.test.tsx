@@ -3,6 +3,7 @@ import {Language} from "../src";
 import {PronounsUser} from "../src/PronounsUser";
 import {expect, jest, test} from '@jest/globals';
 import {UserNotFoundError} from "../src/Errors/UserNotFoundError";
+import * as assert from "assert";
 
 const { JSDOM } = require('jsdom');
 const fetch = require('node-fetch');
@@ -19,6 +20,11 @@ test("this should throw", async () => {
     const dom = new JSDOM(`<!DOCTYPE html><html><body></body></html>`);
     const {document} = dom.window;
     PronounsUser.setupForTests(document, fetch);
-    let thisUserDoesNotExist: PronounsPageUser = new PronounsPageUser("j", Language.en);
-    await expect(thisUserDoesNotExist.fetchPronouns()).rejects.toThrow(UserNotFoundError);
+    try {
+        let thisUserDoesNotExist: PronounsPageUser = new PronounsPageUser("j", Language.en);
+        thisUserDoesNotExist.fetchPronouns();
+        expect(false);
+    } catch (e){
+        expect(e instanceof UserNotFoundError);
+    }
 })

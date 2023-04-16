@@ -64,8 +64,7 @@ export class PronounsPageUser extends PronounsUser {
         response = await fetchFunc('https://pronouns.page/api/profile/get/'+this.username);
         this.data = await response.json();
         if (response.status == 404
-            || !response.json.hasOwnProperty('id')
-            || response.size == 0
+            || !this.data.hasOwnProperty('id')
         ){
             this.data = null;
             this.errorWhileFetching = true;
