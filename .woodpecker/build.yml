@@ -6,6 +6,7 @@ pipeline:
       - npx webpack --config webpack.config.js
       - minify dist/pronounsPage.js > dist/pronounsPage.min.js
   uploadEdge:
+    depends_on: jest
     image: woodpeckerci/plugin-s3
     settings:
       bucket: cdn
@@ -19,6 +20,7 @@ pipeline:
       endpoint: http://192.2.99.21:9000
       region: eu-DE
   uploadCi:
+    depends_on: jest
     image: woodpeckerci/plugin-s3
     settings:
       bucket: cdn

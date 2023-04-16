@@ -1,0 +1,6 @@
+pipeline:
+  jest:
+    image: codeberg.org/julian21/ci-typescript-jest:edge
+    commands:
+      - npm install node-fetch
+      - npx jest --config=jest.config.js
