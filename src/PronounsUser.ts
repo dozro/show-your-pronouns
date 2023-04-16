@@ -5,6 +5,14 @@ export abstract class PronounsUser{
     protected data: JSON;
     protected language: Language;
     protected provider: PronounsProvider;
+    protected static testDocument:Document;
+    protected static testFetch:Function;
+    public static setupForTests(document:Document, fetch:Function):void{
+        console.info("setting up PronounsUser for testing purposes; if this message appears in production systems there is a bug");
+        PronounsUser.testDocument = document;
+        PronounsUser.testFetch = fetch;
+    }
+
     /**
      * This is an asynchronous function that returns a JSON object after fetching pronouns data if it's
      * not already available.
@@ -121,18 +129,19 @@ export abstract class PronounsUser{
     }
     public abstract getNamesList(minimumOpinion:number):Array<string>;
     public async getHTMLFormattedPronouns(withLinks:boolean):Promise<HTMLSpanElement>{
-        var retVal:HTMLSpanElement = document.createElement('span');
+        let doc:Document = (PronounsUser.testDocument != undefined)? PronounsUser.testDocument : window.document;
+        var retVal:HTMLSpanElement = doc.createElement('span');
         for (const pronoun of (await this.getPronounsList(0))) {
             var pa:any;
             if(withLinks){
-                pa = document.createElement('a');
+                pa = doc.createElement('a');
                 pa.href = "https://" + this.language + ".pronouns.page/" + pronoun;
                 pa.target = "_blank";
             } else {
                 pa = document.createElement('span');
             }
             pa.classList.add('pronoun');
-            var pronounsElement:HTMLSpanElement = document.createElement('span');
+            var pronounsElement:HTMLSpanElement = doc.createElement('span');
             pronounsElement.innerHTML = pronoun;
             if(this.getOpinionOnPronouns(pronoun) == 1){
                 pronounsElement.style.fontWeight = "bold";
@@ -143,7 +152,7 @@ export abstract class PronounsUser{
                 pronounsElement.style.color = "red";
             }
             pa.append(pronounsElement);
-            const spacer = document.createTextNode(", ");
+            const spacer = doc.createTextNode(", ");
             retVal.appendChild(pa);
             retVal.appendChild(spacer);
         }

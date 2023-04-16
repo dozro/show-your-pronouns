@@ -1,6 +1,7 @@
 export class PrideFlag{
     name: string;
     imgSrc: URL;
+    testDocument: Document;
     constructor(name: string, emoji: URL){
         this.name = name;
         this.imgSrc = emoji;
@@ -15,12 +16,17 @@ export class PrideFlag{
      * @return an HTMLImageElement.
      */
     public getAsImg(heightOfFlag:number = 30):HTMLImageElement{
-        var retVal:HTMLImageElement = document.createElement('img');
+        let doc:Document = (this.testDocument != undefined)? this.testDocument : window.document;
+        var retVal:HTMLImageElement = doc.createElement('img');
         retVal.src = this.imgSrc.toString();
         retVal.alt = this.name + " pride flag";
         retVal.title = this.name + " pride flag";
         retVal.className = "prideFlag";
         retVal.height = heightOfFlag;
         return retVal;
+    }
+    public setupForTests(document:Document){
+        console.info("setting up PrideFlags for testing purposes; if this message appears in production systems there is a bug");
+        this.testDocument = document;
     }
 }

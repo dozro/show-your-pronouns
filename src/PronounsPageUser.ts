@@ -1,7 +1,7 @@
 import { PronounsUser } from "./PronounsUser";
 
 export class PronounsPageUser extends PronounsUser {
-    
+
     public getNamesList(minimumOpinion:number = 0):Array<string>{
         var retVal:Array<string> = new Array();
         var raw:JSON;
@@ -53,7 +53,8 @@ export class PronounsPageUser extends PronounsUser {
     }
     public async fetchPronouns():Promise<void>{
         var response;
-        response = await fetch('https://pronouns.page/api/profile/get/'+this.username);
+        let fetchFunc:Function = (PronounsUser.testFetch != undefined) ? PronounsUser.testFetch: window.fetch;
+        response = await fetchFunc('https://pronouns.page/api/profile/get/'+this.username);
         this.data = await response.json();
         if (response.status == 404){
             this.data = null;

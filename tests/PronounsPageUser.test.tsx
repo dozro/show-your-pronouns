@@ -1,7 +1,7 @@
 import {PronounsPageUser} from "../src/PronounsPageUser";
 import {Language} from "../src";
 import {PronounsUser} from "../src/PronounsUser";
-//import fetch from 'node-fetch';
+import {expect, jest, test} from '@jest/globals';
 
 const { JSDOM } = require('jsdom');
 const fetch = require('node-fetch');

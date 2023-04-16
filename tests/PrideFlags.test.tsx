@@ -1,5 +1,6 @@
 import {PrideFlag} from "../src/PrideFlags";
 const { JSDOM } = require('jsdom');
+import {expect, jest, test} from '@jest/globals';
 
 test('test PrideFlags at the example of the Transgender Pride-Flag', () => {
     const dom = new JSDOM(`<!DOCTYPE html><html><body></body></html>`);
