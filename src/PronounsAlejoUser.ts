@@ -1,4 +1,5 @@
 import { PronounsUser } from "./PronounsUser";
+import {UserNotFoundError} from "./Errors/UserNotFoundError";
 export class PronounsAlejoUser extends PronounsUser {
     public getNamesList(minimumOpinion:number = 0):Array<string>{
         var retVal:Array<string> = new Array();
@@ -40,7 +41,8 @@ export class PronounsAlejoUser extends PronounsUser {
         this.data = await response.json();
         if (response.status == 404){
             this.data = null;
-            throw new Error('User not found');
+            this.errorWhileFetching = true;
+            throw new UserNotFoundError('User not found');
         }
     }
     public async getAvatar():Promise<URL>{

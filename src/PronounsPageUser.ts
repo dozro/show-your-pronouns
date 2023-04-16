@@ -1,4 +1,5 @@
 import { PronounsUser } from "./PronounsUser";
+import {UserNotFoundError} from "./Errors/UserNotFoundError";
 
 export class PronounsPageUser extends PronounsUser {
 
@@ -62,9 +63,13 @@ export class PronounsPageUser extends PronounsUser {
         let fetchFunc:Function = (PronounsUser.testFetch != undefined) ? PronounsUser.testFetch: window.fetch;
         response = await fetchFunc('https://pronouns.page/api/profile/get/'+this.username);
         this.data = await response.json();
-        if (response.status == 404){
+        if (response.status == 404
+            || !response.json.hasOwnProperty('id')
+            || response.size == 0
+        ){
             this.data = null;
-            throw new Error('User not found');
+            this.errorWhileFetching = true;
+            throw new UserNotFoundError('User not found');
         }
     }
     public async getAvatar():Promise<URL>{

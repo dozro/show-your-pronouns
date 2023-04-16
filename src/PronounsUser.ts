@@ -1,10 +1,12 @@
 import {Language} from "./Language";
 import {PronounsProvider} from "./PronounsProvider";
+import {NoDataBecauseUserNotFound} from "./Errors/UserNotFoundError";
 export abstract class PronounsUser{
     protected username: String;
     protected data: JSON;
     protected language: Language;
     protected provider: PronounsProvider;
+    protected errorWhileFetching:boolean;
     protected static testDocument:Document;
     protected static testFetch:Function;
     public static setupForTests(document:Document, fetch:Function):void{
@@ -20,6 +22,8 @@ export abstract class PronounsUser{
      * @return A Promise that resolves to a JSON object.
      */
     protected async getData():Promise<JSON>{
+        if(this.errorWhileFetching)
+            throw new NoDataBecauseUserNotFound("There was previously an error while trying to fetch data. Therefor no data is available.");
         if(this.data == null)
             await this.fetchPronouns();
         return this.data;
