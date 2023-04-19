@@ -9,7 +9,7 @@ module.exports = {
 //    PronounsPageUser: './src/PronounsPageUser.ts'
   },
   mode: 'production',
-  devtool: 'inline-source-map',
+//  devtool: 'inline-source-map',
   output: {
     filename: 'pronounsPage.js',
     library: "pronouns",

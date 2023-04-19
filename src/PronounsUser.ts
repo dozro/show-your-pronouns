@@ -18,7 +18,7 @@ export abstract class PronounsUser{
     /**
      * This is an asynchronous function that returns a JSON object after fetching pronouns data if it's
      * not already available.
-     * 
+     *
      * @return A Promise that resolves to a JSON object.
      */
     protected async getData():Promise<JSON>{
@@ -36,7 +36,7 @@ export abstract class PronounsUser{
     /**
      * This is a constructor function that initializes the username, language, and provider properties
      * of an object and fetches pronouns based on the provider.
-     * 
+     *
      * @param username A string representing the username of the user for whom the pronouns are being
      * fetched.
      * @param language The `language` parameter is a `Language` object that represents the programming
@@ -63,13 +63,13 @@ export abstract class PronounsUser{
     /**
      * This function returns the avatar URL of a user, with a default URL if the user is not using the
      * Pronouns Page provider.
-     * 
+     *
      * @return A Promise that resolves to a URL.
      */
     public abstract getAvatar():Promise<URL>;
     /**
      * This function sets the language of the code.
-     * 
+     *
      * @param language The parameter "language" is of type "Language", which is likely a custom data
      * type or an enum that represents a programming language. The function "setLanguage" takes in a
      * value of this type and sets it as the language property of the object that the function is
@@ -82,11 +82,11 @@ export abstract class PronounsUser{
     /**
      * This function retrieves a list of pronouns based on a minimum opinion score from a provider's
      * data source.
-     * 
+     *
      * @param minimumOpinion minimumOpinion is a number parameter that represents the minimum opinion
      * score required for a pronoun to be included in the returned list. The opinion score is obtained
      * from the data source and indicates how widely accepted or recognized a particular pronoun is.
-     * 
+     *
      * @return This function returns a Promise that resolves to an array of strings representing
      * pronouns. The pronouns are filtered based on a minimum opinion score, which is an optional
      * parameter with a default value of 0. The function retrieves the pronouns from a data source
@@ -97,7 +97,7 @@ export abstract class PronounsUser{
     /**
      * This function returns an array of pride flags based on the language and provider selected, with
      * a warning if the provider is not compatible.
-     * 
+     *
      * @return An array of strings representing pride flags. If the provider is "PronounsAlejo", an
      * empty array is returned and a warning message is logged.
      */
@@ -105,37 +105,26 @@ export abstract class PronounsUser{
     /**
      * This function returns a numerical value based on the input pronoun, either from a predefined
      * provider or from a JSON object.
-     * 
+     *
      * @param pronoun The pronoun parameter is a string that represents the pronoun for which the
      * function will return an opinion.
-     * 
+     *
      * @return a number, which is either 1 or the value of the pronoun in the JSON data.
      */
     public abstract getOpinionOnPronouns(pronoun:String):Number;
     /**
      * This function takes in a name as a string and returns a number indicating the opinion on that
      * name based on the fetched data.
-     * 
+     *
      * @param name The parameter "name" is a string representing a name for which the function will
      * return an opinion (a number).
-     * 
+     *
      * @return a number that represents the opinion on a given name. The opinion is based on the data
      * stored in the object's `data` property, which is accessed based on the language and provider. If
      * the provider is `pronounsAlejo`, the function returns 1 and adds the first name in the `data`
      * array to the `retVal` array.
      */
-    public getOpinionOnName(name:string):number{
-        var retVal:Array<String> = new Array();
-        if(this.provider == PronounsProvider.pronounsAlejo){
-            // @ts-ignore
-            retVal.push(this.data[0].name);
-            return 1;
-        }
-        var raw:JSON;
-        raw = eval('this.data.profiles.' + this.language + '.names');
-        // @ts-ignore
-        return raw[name];
-    }
+    public abstract getOpinionOnName(name:string):number;
     public abstract getNamesList(minimumOpinion:number):Array<string>;
     public async getHTMLFormattedPronouns(withLinks:boolean):Promise<HTMLSpanElement>{
         let doc:Document = (PronounsUser.testDocument != undefined)? PronounsUser.testDocument : window.document;

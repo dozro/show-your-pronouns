@@ -18,10 +18,10 @@ export class PronounsPageUser extends PronounsUser {
     /**
      * This function returns a numerical value based on the input pronoun, either from a predefined
      * provider or from a JSON object.
-     * 
+     *
      * @param pronoun The pronoun parameter is a string that represents the pronoun for which the
      * function will return an opinion.
-     * 
+     *
      * @return a number, which is either 1 or the value of the pronoun in the JSON data.
      */
     public getOpinionOnPronouns(pronoun:String):Number{
@@ -79,5 +79,23 @@ export class PronounsPageUser extends PronounsUser {
         // @ts-ignore
         retVal = new URL(await (this.getData()).avatar);
         return retVal;
+    }
+    /**
+     * This function takes in a name as a string and returns a number indicating the opinion on that
+     * name based on the fetched data.
+     *
+     * @param name The parameter "name" is a string representing a name for which the function will
+     * return an opinion (a number).
+     *
+     * @return a number that represents the opinion on a given name. The opinion is based on the data
+     * stored in the object's `data` property, which is accessed based on the language and provider. If
+     * the provider is `pronounsAlejo`, the function returns 1 and adds the first name in the `data`
+     * array to the `retVal` array.
+     */
+    public getOpinionOnName(name:string):number{
+        var raw:JSON;
+        raw = eval('this.data.profiles.' + this.language + '.names');
+        // @ts-ignore
+        return raw[name];
     }
 }
