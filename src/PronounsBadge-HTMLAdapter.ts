@@ -4,7 +4,7 @@ export function getPronounsBadge(pronouns:string[], color:string = "orange"):HTM
     var pBadge = new PronounsBadge();
     return pBadge.getPronounsBadge(pronouns, color);
 }
-export async function getPronounsBadgeWithSnackbarMsg(pronouns:string[], color:string = "orange",height:number = 20, language:Language = Language.en):Promise<HTMLImageElement>{
+export async function getPronounsBadgeWithSnackbarMsg(pronouns:string[], language:Language = Language.en, color:string = "orange",height:number = 20):Promise<HTMLImageElement>{
     var pBadge = new PronounsBadge();
     return pBadge.getPronounsBadgeWithExamplesOnClick(pronouns, color,height,language);
 }
