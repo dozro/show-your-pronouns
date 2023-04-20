@@ -49,15 +49,16 @@ export class PronounsBadge{
         pronounsBadge.alt = 'pronouns: ' + pronouns.join(', ');
         pronounsBadge.height = height;
         pronounsBadge.className = 'pronouns-badge';
+
+        let whatToSend:string = "Pronouns: \n";
+        for(let i = 0; i < pronouns.length; i++) {
+            let pn0: Pronouns = new Pronouns(pronouns[i], language);
+            let pnl: PronounsLookup = new PronounsLookup(pn0);
+            let msgPart: string = (await pnl.getMorphemes()).pronoun_subject + ", " + (await pnl.getMorphemes()).pronoun_object + ", " + (await pnl.getMorphemes()).possessive_determiner + ", " + (await pnl.getMorphemes()).possessive_determiner + ", " + (await pnl.getMorphemes()).reflexive + "\n";
+            whatToSend += msgPart;
+        }
         pronounsBadge.addEventListener("click", async (e) => {
-            let msg:string;
-            for(let pn in pronouns){
-                let pn0:Pronouns = new Pronouns(pn,language);
-                let pnl:PronounsLookup = new PronounsLookup(pn0);
-                let msgPart:string = (await pnl.getMorphemes()).pronoun_subject + ", " +  (await pnl.getMorphemes()).pronoun_object + ", " +  (await pnl.getMorphemes()).possessive_determiner + ", " +  (await pnl.getMorphemes()).possessive_determiner + ", " +  (await pnl.getMorphemes()).reflexive + "<br>";
-                msg+=msgPart;
-            }
-            sendSnackbar(msg);
+            sendSnackbar(whatToSend);
         })
         return pronounsBadge;
     }
