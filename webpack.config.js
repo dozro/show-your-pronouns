@@ -6,7 +6,6 @@ module.exports = {
       import: './src/index.ts',
 //      dependOn: 'PronounsPageUser',
     },
-//    PronounsPageUser: './src/PronounsPageUser.ts'
   },
   mode: 'development',
 //  devtool: 'inline-source-map',
@@ -27,6 +26,10 @@ module.exports = {
       {
         test: /\.tsx?$/,
         exclude: /tests/,
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
