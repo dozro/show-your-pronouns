@@ -1,4 +1,4 @@
-import "./Snackbar.css"
+//import "./Snackbar.css"
 export function sendSnackbar(msg:string){
     if (!document.getElementById("snackbarStyle") || !document.getElementById("snackbar")){
         let snackbarStyle:HTMLStyleElement = document.createElement("style");
