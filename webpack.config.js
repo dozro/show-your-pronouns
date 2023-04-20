@@ -7,7 +7,7 @@ module.exports = {
 //      dependOn: 'PronounsPageUser',
     },
   },
-  mode: 'development',
+  mode: 'production',
 //  devtool: 'inline-source-map',
   output: {
     filename: 'pronounsPage.js',

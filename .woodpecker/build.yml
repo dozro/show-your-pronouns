@@ -3,6 +3,7 @@ pipeline:
     image: codeberg.org/julian21/ci-typescript-webpack:edge
     commands:
       - npm install --save-dev typescript ts-loader
+      - npm install
       - npx webpack --config webpack.config.js
 #      - minify dist/pronounsPage.js > dist/pronounsPage.min.js
   jest:
