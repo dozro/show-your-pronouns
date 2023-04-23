@@ -4,7 +4,6 @@ module.exports = {
   entry: {
     index: {
       import: './src/index.ts',
-//      dependOn: 'PronounsPageUser',
     },
   },
   mode: 'production',

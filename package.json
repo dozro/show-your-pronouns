@@ -1,8 +1,8 @@
 {
-    "name": "pronouns.page",
+    "name": "@rye/show-your-pronouns",
     "version": "0.0.1",
     "description": "Pronouns.Page JS API",
-    "main": "index.ts",
+    "main": "dist/pronounsPage.js",
     "scripts": {
         "start": "node index.ts",
         "build": "webpack",
@@ -14,11 +14,12 @@
         "test-compile": "tsc -p ./"
     },
     "keywords": [
-        "Mein Projekt",
+        "Pronouns",
         "Javascript",
-        "Webpack"
+        "Webpack",
+        "pronouns.page"
     ],
-    "author": "dozjul",
+    "author": "rye",
     "license": "HL3-FULL",
     "dependencies": {
         "express": "^4.17.2",
@@ -37,5 +38,8 @@
         "typescript": "^5.0.4",
         "webpack": "^5.77.0",
         "webpack-cli": "^4.10.0"
+    },
+    "publishConfig": {
+        "registry": "https://git.thejulian.uk/api/packages/julian/npm/"
     }
 }
