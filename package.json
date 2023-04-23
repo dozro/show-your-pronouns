@@ -1,6 +1,6 @@
 {
     "name": "@rye/show-your-pronouns",
-    "version": "0.0.1",
+    "version": "0.0.6",
     "description": "Pronouns.Page JS API",
     "main": "dist/pronounsPage.js",
     "scripts": {
@@ -10,7 +10,8 @@
         "vscode:prepublish": "npm run package",
         "webpack": "webpack --mode development",
         "webpack-dev": "webpack --mode development --watch",
-        "package": "webpack --mode production --devtool hidden-source-map",
+        "package": "webpack --mode production --config webpack.node.config.js",
+        "dev-package": "webpack --mode development --config webpack.node.config.js",
         "test-compile": "tsc -p ./"
     },
     "keywords": [
