@@ -2,7 +2,7 @@ import {Language} from "./Language";
 import {PronounsProvider} from "./PronounsProvider";
 import {NoDataBecauseUserNotFound} from "./Errors/UserNotFoundError";
 
-import "./style/prefferedPronouns.scss"
+import "./style/preferredPronouns.scss"
 
 export abstract class PronounsUser{
     protected username: String;
@@ -145,11 +145,11 @@ export abstract class PronounsUser{
             var pronounsElement:HTMLSpanElement = doc.createElement('span');
             pronounsElement.innerHTML = pronoun;
             if(this.getOpinionOnPronouns(pronoun) == 1){
-                pronounsElement.className = "pronouns-preffered-pronouns-preffered";
+                pronounsElement.className = "pronouns-preferred-pronouns-preferred";
             } else if(this.getOpinionOnPronouns(pronoun) == 0){
-                pronounsElement.className = "pronouns-preffered-pronouns-okay";
+                pronounsElement.className = "pronouns-preferred-pronouns-okay";
             } else if(this.getOpinionOnPronouns(pronoun) == -1){
-                pronounsElement.className = "pronouns-preffered-pronouns-no";
+                pronounsElement.className = "pronouns-preferred-pronouns-no";
             }
             pa.append(pronounsElement);
             const spacer = doc.createTextNode(", ");

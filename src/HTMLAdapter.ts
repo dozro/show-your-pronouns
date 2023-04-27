@@ -4,7 +4,7 @@ import { PronounsProvider } from './PronounsProvider';
 import { getPronounsBadge } from './PronounsBadge-HTMLAdapter';
 import { newUser, users } from './UserMng';
 import { PronounsPagePrideFlags } from './PronounsPagePrideFlags';
-import "./style/prefferedNames.scss";
+import "./style/preferredNames.scss";
 
 /**
  * This function returns a Promise that resolves to a PronounsUser object with the specified username
@@ -182,11 +182,11 @@ export async function getHTMLFormattedNamesOfUser(username:string, language:Lang
         var nameElement:HTMLSpanElement = document.createElement('span');
         nameElement.innerHTML = String(name);
         if(p.getOpinionOnName(name) == 1){
-            nameElement.className = "pronouns-preffered-names-preffered";
+            nameElement.className = "pronouns-preferred-names-preffered";
         } else if(p.getOpinionOnName(name) == 0){
-            nameElement.className = "pronouns-preffered-names-okay";
+            nameElement.className = "pronouns-preferred-names-okay";
         } else if(p.getOpinionOnName(name) == -1){
-            nameElement.className = "pronouns-preffered-names-no";
+            nameElement.className = "pronouns-preferred-names-no";
         }
         retVal.append(nameElement);
         if(counter < p.getNamesList(minimumOpinion).length){
