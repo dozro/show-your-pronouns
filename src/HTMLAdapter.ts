@@ -182,7 +182,7 @@ export async function getHTMLFormattedNamesOfUser(username:string, language:Lang
         var nameElement:HTMLSpanElement = document.createElement('span');
         nameElement.innerHTML = String(name);
         if(p.getOpinionOnName(name) == 1){
-            nameElement.className = "pronouns-preferred-names-preffered";
+            nameElement.className = "pronouns-preferred-names-preferred";
         } else if(p.getOpinionOnName(name) == 0){
             nameElement.className = "pronouns-preferred-names-okay";
         } else if(p.getOpinionOnName(name) == -1){
