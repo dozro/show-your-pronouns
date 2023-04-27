@@ -6,6 +6,8 @@ import {newUser} from './UserMng';
 import {PronounsLookup} from "./PronounsLookup";
 import {getPronounsBadge, getPronounsBadgeWithSnackbarMsg} from "./PronounsBadge-HTMLAdapter";
 
+import "./style/main.css";
+
 export {getUser, getAgeOfUser, getAllNamesOfUser, getFormattedPronounsOfUser, getHTMLFormattedNamesOfUser, getHTMLFormattedPronounsOfUser, getPreferedNamesOfUser, getPronounsBadgeOfUser, getPronounsOfUser, getHTMLFormattedPronounsOfUserNoLink, getPronounsPageUser, getPrideFlagsOfUser};
 export { Language };
 export {newUser};

@@ -1,6 +1,9 @@
 import {Language} from "./Language";
 import {PronounsProvider} from "./PronounsProvider";
 import {NoDataBecauseUserNotFound} from "./Errors/UserNotFoundError";
+
+import "./style/prefferedPronouns.scss"
+
 export abstract class PronounsUser{
     protected username: String;
     protected data: JSON;
@@ -142,12 +145,11 @@ export abstract class PronounsUser{
             var pronounsElement:HTMLSpanElement = doc.createElement('span');
             pronounsElement.innerHTML = pronoun;
             if(this.getOpinionOnPronouns(pronoun) == 1){
-                pronounsElement.style.fontWeight = "bold";
-                pronounsElement.style.color = "green";
+                pronounsElement.className = "pronouns-preffered-pronouns-preffered";
             } else if(this.getOpinionOnPronouns(pronoun) == 0){
-                pronounsElement.style.color = "orange";
+                pronounsElement.className = "pronouns-preffered-pronouns-okay";
             } else if(this.getOpinionOnPronouns(pronoun) == -1){
-                pronounsElement.style.color = "red";
+                pronounsElement.className = "pronouns-preffered-pronouns-no";
             }
             pa.append(pronounsElement);
             const spacer = doc.createTextNode(", ");

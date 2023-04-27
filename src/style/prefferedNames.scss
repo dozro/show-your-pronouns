@@ -1,0 +1,10 @@
+@import "basics.scss";
+.pronouns-preffered-names-preffered{
+    @extend .pronouns-preffered;
+}
+.pronouns-preffered-names-okay{
+    @extend .pronouns-okay;
+}
+.pronouns-preffered-names-no{
+    @extend .pronouns-no;
+}
