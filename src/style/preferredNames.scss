@@ -1,10 +1,12 @@
-@import "basics.scss";
+@import "basics";
+@import "fonts";
 .pronouns-preferred-names-preferred{
-    @extend .pronouns-preferred;
+    @extend %pronouns-preferred;
 }
 .pronouns-preferred-names-okay{
-    @extend .pronouns-okay;
+    font-family: "Bebas Neue", sans-serif;
+    @extend %pronouns-okay;
 }
 .pronouns-preferred-names-no{
-    @extend .pronouns-no;
+    @extend %pronouns-no;
 }

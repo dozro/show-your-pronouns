@@ -5,6 +5,7 @@ import { getPronounsBadge } from './PronounsBadge-HTMLAdapter';
 import { newUser, users } from './UserMng';
 import { PronounsPagePrideFlags } from './PronounsPagePrideFlags';
 import "./style/preferredNames.scss";
+import "./style/emoji.scss";
 
 /**
  * This function returns a Promise that resolves to a PronounsUser object with the specified username
@@ -182,8 +183,16 @@ export async function getHTMLFormattedNamesOfUser(username:string, language:Lang
         var nameElement:HTMLSpanElement = document.createElement('span');
         nameElement.innerHTML = String(name);
         if(p.getOpinionOnName(name) == 1){
+            let preEmoji:HTMLSpanElement = document.createElement('span');
+            preEmoji.className = "pronouns-emoji";
+            preEmoji.innerHTML = "&#x1FA75";
+            nameElement.prepend(preEmoji);
             nameElement.className = "pronouns-preferred-names-preferred";
         } else if(p.getOpinionOnName(name) == 0){
+            let preEmoji:HTMLSpanElement = document.createElement('span');
+            preEmoji.className = "pronouns-emoji";
+            preEmoji.innerHTML = "&#x1FAE8;";
+            nameElement.prepend(preEmoji);
             nameElement.className = "pronouns-preferred-names-okay";
         } else if(p.getOpinionOnName(name) == -1){
             nameElement.className = "pronouns-preferred-names-no";

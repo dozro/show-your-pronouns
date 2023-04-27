@@ -1,15 +1,17 @@
-$prefered-color
+$color-when-preferred: green !default;
+$color-when-okay: orange !default;
+$color-when-no: darkred !default;
 
-.pronouns-preferred{
-  color: green;
+%pronouns-preferred{
+  color: $color-when-preferred;
   font-weight: bold;
 }
-.pronouns-okay{
-  color: orange;
+%pronouns-okay{
+  color: $color-when-okay;
   font-weight: lighter;
   font-style: italic;
 }
-.pronouns-no{
-  color: darkred;
+%pronouns-no{
+  color: $color-when-no;
   font-style: italic;
 }
