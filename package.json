@@ -46,5 +46,8 @@
     },
     "publishConfig": {
         "registry": "https://git.thejulian.uk/api/packages/julian/npm/"
+    },
+    "bugs": {
+        "url": "https://git.thejulian.uk/julian/pronouns.page.js/issues"
     }
 }
