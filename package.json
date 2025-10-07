@@ -23,7 +23,7 @@
     "author": "rye",
     "license": "HL3-FULL",
     "dependencies": {
-        "express": "^4.19.2",
+        "express": "^4.20.0",
         "node-fetch": "^2.6.9",
         "react": "^17.0.1",
         "sass": "^1.62.1"
