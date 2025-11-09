@@ -2,5 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "automerge": true,
   "automergeType": "pr-comment",
-  "automergeComment": "auto merge of renovate bump"
+  "automergeComment": "auto merge of renovate bump",
+  "assigneesFromCodeOwners": true
 }
