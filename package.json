@@ -18,7 +18,7 @@
         "Javascript",
         "Webpack"
     ],
-    "author": "dozjul",
+    "author": "dozro",
     "license": "HL3-FULL",
     "dependencies": {
         "express": "^4.17.2",
